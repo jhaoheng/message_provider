@@ -1,0 +1,30 @@
+version: "3.2"
+services:
+  firebase:
+    image: php:7.2-rc-cli
+    ports:
+      - 2000:2000/tcp
+    tty: true
+    environment:
+      - firebaseKey=""
+    container_name: firebase
+    volumes:
+      - ./firebase:/firebase
+    working_dir: /firebase
+    command: php -S 0.0.0.0:2000 # curl -X POST http://localhost:2000/firebase.php
+  slack:
+    image: php:7.2-rc-cli
+    ports:
+      - 2001:2001/tcp
+    tty: true
+    environment:
+      # 請參考 slack
+      - slackUrl=''
+      - slackChannel="#general"
+      - slackBotName="bot"
+      - slackBotIcon=":ghost:"
+    container_name: slack
+    volumes:
+      - ./slack:/slack
+    working_dir: /slack
+    command: php -S 0.0.0.0:2000 # curl -X POST http://localhost:2001/slack.php
