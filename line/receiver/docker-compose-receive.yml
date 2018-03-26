@@ -11,4 +11,4 @@ services:
     volumes:
       - ./nginx/ssl:/etc/nginx/ssl/ # ssl
       - ./nginx/sites-enabled/:/etc/nginx/sites-enabled/
-      - ./receiver.php:/usr/share/nginx/html/app/receiver.php
+      - ./app:/usr/share/nginx/html/app
