@@ -12,3 +12,5 @@ services:
       - ./nginx/ssl:/etc/nginx/ssl/ # ssl
       - ./nginx/sites-enabled/:/etc/nginx/sites-enabled/
       - ./app:/usr/share/nginx/html/app
+      - ./entrypoint.sh:/entrypoint.sh
+    entrypoint: /entrypoint.sh
