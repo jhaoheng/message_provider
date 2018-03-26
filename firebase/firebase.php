@@ -1,7 +1,5 @@
 <?php  
 
-// demo key : AAAA7ckixgc:APA91bE4_jHKyaCVojtJEfp8bhIev_hOXC4td1y82TB0LWmyUhprIKR15p-VyMbwClZ9CBejdqI_QKFjZs8Cap5LtXezxwvJrNibRhW0-a_qMpZInFGy__W_KihtDgjt_NM84TNDYAcpvqunMa816KQrPtqojH1N6g
-
 /**
  * [sendInBackground description]
  * @param  [array] $registrationIds [firebase 的 push_token]
@@ -32,7 +30,7 @@ function send($key, $registrationIds, $title, $body, $badge=0, $sound=1, $vibrat
      
     $headers = array
     (
-        'Authorization: key=' . $this->key,
+        'Authorization: key=' . $key,
         'Content-Type: application/json'
     );
      
@@ -71,18 +69,28 @@ function deleteFailToken($registrationIds, $resultOfSender){
     return $inValid_tokens;
 }
 
-$key = getenv('firebaseKey');
-$data = json_decode(file_get_contents('php://input'), true);
+$file = __DIR__."/config.json";
+$data = file_get_contents($file);
+$json = json_decode($data, true);
 
-$registrationIds = $data['registrationIds'];
-$title = $data['title'];
-$body = $data['body'];
-$badge = $data['badge'];
-$r = send($key, $registrationIds, $title, $body, $badge);
+$CloudMessage_ServerKey = $json["CloudMessage_ServerKey"];
+$registrationIds = $json["registrationIds"];
+
+$message = $json["message"];
+$title = $message['title'];
+$body = $message['body'];
+$badge = $message['badge'];
+
+
+echo PHP_EOL;
+echo "*** Result ***".PHP_EOL;
+$r = send($CloudMessage_ServerKey, $registrationIds, $title, $body, $badge);
+var_dump($r);
+
+echo PHP_EOL;
+echo "*** Invalid Tokens ***".PHP_EOL;
 $r = deleteFailToken($registrationIds, $r);
-
-header('Content-Type: application/json');
-echo json_encode($r);
+var_dump($r);
 
 
 ?>

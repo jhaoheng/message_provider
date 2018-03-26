@@ -1,0 +1,13 @@
+{
+  "CloudMessage_ServerKey":"",
+  "registrationIds":[
+    "your_token_1",
+    "your_token_2",
+    "your_token_3"
+  ],
+  "message":{
+    "title":"hello",
+    "body":"body",
+    "badge":1
+  }
+}
