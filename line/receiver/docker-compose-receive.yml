@@ -1,0 +1,14 @@
+version: "3.2"
+services:
+  line_receiver:
+    build: 
+      context: ./DockerImage
+    image: line_receiver
+    container_name: line_receiver
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/ssl:/etc/nginx/ssl/ # ssl
+      - ./nginx/sites-enabled/:/etc/nginx/sites-enabled/
+      - ./receiver.php:/usr/share/nginx/html/app/receiver.php

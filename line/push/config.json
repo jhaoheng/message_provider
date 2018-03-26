@@ -1,0 +1,16 @@
+{
+  "Channel_Access_Token":"pvWWtvy6Erb36wIIegXrDiOxH78KsYdI7EVauH7Ursf+KLhHrjEDGWoXN+XFihjLDf/OvCIlMYQL+BoXHx5C3UlgrliuF79RCBdHnXsoQYfeU2K7PNpyqgsyY4bvT3jWvb5KVUEYMn4SxcXJ3aFk5gdB04t89/1O/w1cDnyilFU=",
+  "body":{
+    "to":"U90b348c49d5aa35af96723fbcdc24c09",
+    "messages":[
+      {
+        "type":"text",
+        "text":"hello, world 1"
+      },
+      {
+        "type":"text",
+        "text":"hello, world 2"
+      }
+    ]
+  }
+}
