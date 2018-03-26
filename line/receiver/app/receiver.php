@@ -1,5 +1,7 @@
 <?php  
 
+include_once "line.php";
+
 if (!function_exists('getallheaders')) 
 { 
     function getallheaders() 
@@ -16,38 +18,27 @@ if (!function_exists('getallheaders'))
     } 
 } 
 
-function Signature_validation(){
+$Channel_secret = ""; // need set from line developer console
 
-}
 
-function Parse_body(){
-  // 將收到的資料整理至變數
-  $receive = json_decode(file_get_contents("php://input"));
-  // 讀取收到的訊息內容
-  $text = $receive->events[0]->message->text;
-  // 讀取訊息來源的類型  [user, group, room]
-  $type = $receive->events[0]->source->type;
-  // 由於新版的Messaging Api可以讓Bot帳號加入多人聊天和群組當中
-  // 所以在這裡先判斷訊息的來源
-  if ($type == "room") {
-    // 多人聊天 讀取房間id
-    $from = $receive->events[0]->source->roomId;
-  } 
-  else if ($type == "group") {
-    // 群組 讀取群組id
-    $from = $receive->events[0]->source->groupId;
-  }
-  else {
-    // 一對一聊天 讀取使用者id
-    $from = $receive->events[0]->source->userId;
-  }
-}
+//
+
 
 $headers = getallheaders();
 $headers_str = json_encode($headers);
+$body_str = file_get_contents("php://input");
 
-$body = file_get_contents("php://input");
-$body_str = json_encode($body);
+$LINE = new Line;
+$X_Line_Signature = $headers["X-Line-Signature"];
+$is_line_sender = $LINE->Signature_validation($Channel_secret, $X_Line_Signature, $body_str);
+if (!$is_line_sender) {
+/*
+ Should return the status code 200 for a HTTP POST request sent by a webhook.
+ HTTP POST requests sent by a webhook are not resent if the request fails.
+ */
+  http_response_code(404);
+}
+
 
 $file = 'log.txt';
 $save = file_get_contents($file);
@@ -59,11 +50,9 @@ $save .= "$body_str\n";
 $save .= "====================\n";
 file_put_contents($file, $save);
 
-
-
-// /*
-// Should return the status code 200 for a HTTP POST request sent by a webhook.
-// HTTP POST requests sent by a webhook are not resent if the request fails.
-//  */
+/*
+ Should return the status code 200 for a HTTP POST request sent by a webhook.
+ HTTP POST requests sent by a webhook are not resent if the request fails.
+ */
 http_response_code(200);
 ?>
