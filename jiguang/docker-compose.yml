@@ -1,0 +1,11 @@
+version: "3.2"
+services:
+  golang:
+    image: golang:1.10-stretch
+    container_name: jiguang_push
+    tty: true
+    volumes:
+      - ./app:/go/src/app
+    env_file:
+      - ./app/config.env
+    working_dir: /go/src/app
