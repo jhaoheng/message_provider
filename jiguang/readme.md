@@ -10,6 +10,12 @@
 2. `docker exec -it jiguang_push /bin/bash`
 3. `go run main.go`
 
+# 使用心得
+- server 使用極光 api 進行推送行為，若整個 registration_ids 全部都是錯的，會直接返回 400 錯誤。若其中一個是正確，其他是錯誤，則會返回 200，並附帶 msg_id 進行回調查詢。
+- 極光推送，不像 firebase，需要特別調用 '送达状态查询 : `POST /status/message`' 的這隻 api，來回報 server 哪些 id 是無效的，須在 server 端進行刪除行為。
+- 在調用 '送达状态查询 : `POST /status/message` api 時，msg_id 必須是 int value
+- 調用 report 的 api, 極容易發生 error, 我想應該是極光推送系統來不及寫入的關係
+
 # app
 
 ## android
